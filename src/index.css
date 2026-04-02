@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Inter:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 40% 98%;
+    --foreground: 222 84% 5%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 84% 5%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 84% 5%;
+    --primary: 222 47% 11%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 215 16% 47%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 174 85% 32%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 174 85% 32%;
+    --radius: 0.25rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --obsidian: 222 47% 11%;
+    --slate-text: 215 16% 47%;
+    --teal: 174 85% 32%;
+    --surface: 0 0% 100%;
+    --canvas: 210 40% 98%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-canvas text-foreground font-sans;
+    font-family: 'Inter', sans-serif;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+@layer components {
+  .font-mono-tech {
+    font-family: 'Roboto Mono', monospace;
+  }
+  .font-plex {
+    font-family: 'IBM Plex Sans', sans-serif;
+  }
+
+  .section-hidden {
+    display: none;
+  }
+  .section-active {
+    display: block;
+    animation: sectionFadeIn 0.3s ease-out;
+  }
+
+  .nav-link {
+    @apply relative inline-block cursor-pointer text-sm font-medium transition-colors duration-200;
+    color: hsl(var(--slate-text));
+  }
+  .nav-link::after {
+    content: '';
+    @apply absolute bottom-0 left-0 h-0.5 w-full origin-left scale-x-0 transition-transform duration-300;
+    background: hsl(var(--teal));
+  }
+  .nav-link:hover::after,
+  .nav-link.active::after {
+    @apply scale-x-100;
+  }
+  .nav-link:hover,
+  .nav-link.active {
+    color: hsl(var(--obsidian));
+  }
+
+  .card-hover {
+    @apply transition-all duration-200 ease-out;
+  }
+  .card-hover:hover {
+    border-color: hsl(var(--teal));
+    box-shadow: 0 4px 20px -4px rgba(13, 148, 136, 0.15);
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-6 py-3 text-sm font-semibold rounded transition-all duration-200;
+    background: hsl(var(--obsidian));
+    color: hsl(var(--primary-foreground));
+  }
+  .btn-primary:hover {
+    background: hsl(222 47% 18%);
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center px-6 py-3 text-sm font-semibold rounded border transition-all duration-200;
+    border-color: hsl(var(--obsidian));
+    color: hsl(var(--obsidian));
+  }
+  .btn-outline:hover {
+    background: hsl(var(--obsidian));
+    color: hsl(var(--primary-foreground));
+  }
+
+  .btn-teal {
+    @apply inline-flex items-center justify-center px-6 py-3 text-sm font-semibold rounded transition-all duration-200;
+    background: hsl(var(--teal));
+    color: white;
+  }
+  .btn-teal:hover {
+    background: hsl(174 85% 26%);
+  }
+}
+
+@keyframes sectionFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
