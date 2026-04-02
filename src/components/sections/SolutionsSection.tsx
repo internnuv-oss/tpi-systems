@@ -115,9 +115,9 @@ const SolutionsSection = () => (
     <div className="max-w-7xl mx-auto">
       <div className="text-center mb-14">
         <span className="font-mono text-xs text-teal uppercase tracking-widest">Solutions</span>
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-obsidian mt-3">Our Product Suite</h2>
+        <h2 className="text-3xl sm:text-4xl font-extrabold text-obsidian mt-3">Our Solutions</h2>
         <p className="text-slate-text mt-4 max-w-2xl mx-auto text-sm leading-relaxed">
-          Two complementary platforms, one unified mission: turning industrial data into causal understanding.
+        Three complementary solutions — Insight Accelerators, Causal Intelligence Platform, and Field Commander — working together with one unified mission: turning operational data into causal understanding and real-world control.
         </p>
       </div>
 

@@ -25,7 +25,7 @@ const AboutSection = () => (
     <div className="max-w-7xl mx-auto">
       <div className="grid lg:grid-cols-2 gap-12 mb-16">
         {/* Left */}
-        {/* Left */}
+        
 <div>
   <span className="font-mono text-xs text-teal uppercase tracking-widest">Company</span>
 
@@ -63,32 +63,22 @@ const AboutSection = () => (
         {/* Right */}
         <div className="space-y-6">
           <div className="bg-surface border border-border rounded p-6">
-            <h3 className="text-base font-bold text-obsidian mb-3">Our Mission</h3>
-            <p className="text-sm text-slate-text leading-relaxed">
-            We move enterprises from guessing to knowing by replacing correlation with causation. We transform operational data from a passive record into an active control system, enabling scientific decision-making instead of intuition-based firefighting.
+            {/* <h3 className="text-base  text-obsidian mb-3">Our Mission</h3> */}
+            <p className="text-sm text-obsidian font-bold leading-relaxed text-center">
+            "We move enterprises from guessing to knowing by replacing correlation with causation" 
 
 
             
-            </p>
-          </div>
-          <div className="bg-surface border border-border rounded p-6">
-            <p className="text-sm text-slate-text leading-relaxed">
+            </p >
+            <p className="text-sm text-slate-text leading-relaxed mt-3 text-center">We transform operational data from a passive record into an active control system, enabling scientific decision-making instead of intuition-based firefighting.</p>
+
+            <p className="text-sm text-slate-text leading-relaxed mt-3 text-center">
             We transform operational data from a passive record into an active control system, enabling scientific decision-making instead of intuition-based firefighting.
-We build cutting-edge digital assistants to optimize manufacturing, delivering precision and innovation that elevate our clients to world-class status.
-
-
-
-            
+            We build cutting-edge digital assistants to optimize manufacturing, delivering precision and innovation that elevate our clients to world-class status.
             </p>
           </div>
-          {/* <div className="grid grid-cols-2 gap-4">
-            {stats.map((s) => (
-              <div key={s.label} className="bg-surface border border-border rounded p-4 text-center">
-                <span className="text-2xl font-extrabold text-teal">{s.value}</span>
-                <p className="text-xs text-slate-text mt-1">{s.label}</p>
-              </div>
-            ))}
-          </div> */}
+          
+          
         </div>
       </div>
 

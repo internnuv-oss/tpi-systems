@@ -1,3 +1,5 @@
+import { Bold } from "lucide-react";
+
 const steps = [
   {
     num: "01",
@@ -70,56 +72,57 @@ const PlatformSection = () => (
       <div className="text-center mb-14">
         <span className="font-mono text-xs text-teal uppercase tracking-widest">Platform</span>
         <h2 className="text-3xl sm:text-4xl font-extrabold text-obsidian mt-3">The Causal Intelligence Platform</h2>
+        <p className="text-slate-text mt-4 max-w-2xl mx-auto text-sm leading-relaxed">
+        A <span className="strong">Causal Digital Twin</span> of your operational systems, enabling teams to move from reactive problem solving to scientific control.        </p>
       </div>
-      <div className="grid md:grid-cols-2 gap-6 mt-10">
-  {sections.map((s) => (
-    <div
-      key={s.num}
-      className="bg-surface border border-border rounded-lg p-6 hover:shadow-md transition-all duration-200"
-    >
-      {/* Top label */}
-      <span className="text-xs uppercase tracking-wider text-slate-text">
-        {s.num} / {s.label}
-      </span>
 
-      {/* Title */}
-      <h3 className="text-lg font-bold text-obsidian mt-3">
-        {s.title}
-      </h3>
+      {/* Grid layout for sections and terminal */}
+      <div className="grid md:grid-cols-2 gap-6 mt-10 items-start">
+        {/* Sections on the left */}
+        <div className="space-y-6">
+          {sections.map((s) => (
+            <div
+              key={s.num}
+              className="bg-surface border border-border rounded-lg px-6 py-3 hover:shadow-md transition-all duration-200"
+            >
+              {/* Top label */}
+              <span className="text-xs uppercase tracking-wider text-slate-text">
+                {s.num} / {s.label}
+              </span>
 
-      {/* Description */}
-      <p className="text-sm text-slate-text mt-3 leading-relaxed">
-        {s.desc}
-      </p>
-    </div>
-  ))}
-</div>
+              {/* Title */}
+              <h3 className="text-lg font-bold text-obsidian mt-2">
+                {s.title}
+              </h3>
 
-{/* Terminal BELOW */}
-{/* Terminal BELOW (controlled width) */}
-<div className="mt-12 max-w-3xl mx-auto">
-  <div className="bg-obsidian rounded-lg p-6 overflow-hidden shadow-lg border border-white/5">
-    
-    {/* Top dots */}
-    <div className="flex gap-1.5 mb-4">
-      <span className="w-3 h-3 rounded-full bg-red-500" />
-      <span className="w-3 h-3 rounded-full bg-yellow-400" />
-      <span className="w-3 h-3 rounded-full bg-green-500" />
-    </div>
+              {/* Description */}
+              <p className="text-sm text-slate-text mt-2 leading-relaxed">
+                {s.desc}
+              </p>
+            </div>
+          ))}
+        </div>
 
-    {/* Terminal content */}
-    <div className="font-mono text-xs space-y-1.5 leading-relaxed whitespace-pre-wrap break-words">
-      {terminalLines.map((line, i) => (
-        <p key={i} className={line.color}>
-          {line.text}
-        </p>
-      ))}
-      <p className="text-teal animate-pulse">█</p>
-    </div>
+        {/* Terminal on the right */}
+        <div className="bg-obsidian rounded-lg p-6 overflow-hidden shadow-lg border border-white/5">
+          {/* Top dots */}
+          <div className="flex gap-1.5 mb-4">
+            <span className="w-3 h-3 rounded-full bg-red-500" />
+            <span className="w-3 h-3 rounded-full bg-yellow-400" />
+            <span className="w-3 h-3 rounded-full bg-green-500" />
+          </div>
 
-  </div>
-</div>
-      
+          {/* Terminal content */}
+          <div className="font-mono text-xs space-y-1.5 leading-relaxed whitespace-pre-wrap break-words">
+            {terminalLines.map((line, i) => (
+              <p key={i} className={line.color}>
+                {line.text}
+              </p>
+            ))}
+            <p className="text-teal animate-pulse">█</p>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 );

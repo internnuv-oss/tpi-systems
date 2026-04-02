@@ -49,7 +49,7 @@ const ResourcesSection = () => {
         <div className="text-center mb-14">
           <span className="font-mono text-xs text-teal uppercase tracking-widest">Resources</span>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-obsidian mt-3">Knowledge Repository </h2>
-          <p className="text-sm text-slate-text italic leading-relaxed">
+          <p className="text-slate-text mt-4 max-w-2xl mx-auto text-sm leading-relaxed">
           Scientific Foundations and anonymized implementation frameworks and case studies.        </p>
         </div>
 

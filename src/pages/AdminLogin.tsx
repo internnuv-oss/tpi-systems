@@ -36,7 +36,7 @@ const AdminLogin = () => {
         {/* Logo */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-3">
-            <span className="text-2xl font-bold" style={{ color: "hsl(174 85% 32%)" }}>π</span>
+            {/* <span className="text-2xl font-bold" style={{ color: "hsl(174 85% 32%)" }}></span> */}
             <span className="text-xl font-bold text-white">TheProcessInsights</span>
           </div>
           <p className="text-sm" style={{ color: "hsl(215 16% 60%)" }}>

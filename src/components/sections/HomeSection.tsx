@@ -45,20 +45,20 @@ const HomeSection = ({ onNavigate }: HomeSectionProps) => (
           <button onClick={() => onNavigate("platform")} className="btn-primary">
           Explore Platform
           </button>
-          <button onClick={() => onNavigate("solutions")} className="btn-outline">
+          <button onClick={() => onNavigate("resources")} className="btn-outline">
           Technical Resources
           </button>
+        </div>
+        <div className="bg-surface rounded border-l-4 border-teal mt-8 p-5">
+          <p className="text-sm text-slate-text italic leading-relaxed">
+          "Traditional ML predicts outcomes. We model the structural interventions that control them."          </p>
+          <p className="text-xs text-obsidian font-semibold mt-3 font-plex">— TPI Systems Research</p>
         </div>
       </div>
 
       {/* Right */}
       <div className="space-y-6">
         <CausalDiagram />
-        <div className="bg-surface rounded border-l-4 border-teal p-5">
-          <p className="text-sm text-slate-text italic leading-relaxed">
-          "Traditional ML predicts outcomes. We model the structural interventions that control them."          </p>
-          <p className="text-xs text-obsidian font-semibold mt-3 font-plex">— TPI Systems Research</p>
-        </div>
       </div>
     </div>
   </section>

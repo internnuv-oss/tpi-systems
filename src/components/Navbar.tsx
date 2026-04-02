@@ -7,7 +7,7 @@ interface NavbarProps {
 }
 
 const navItems = [
-  { id: "home", label: "Home" },
+  // { id: "home", label: "Home" },
   { id: "platform", label: "Platform" },
   { id: "solutions", label: "Solutions" },
   { id: "resources", label: "Resources" },

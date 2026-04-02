@@ -49,7 +49,7 @@ const CareersSection = () => {
         {/* Header */}
         <div className="text-center mb-14">
           <span className="font-mono text-xs text-teal uppercase tracking-widest">
-            Careers
+            Join Team
           </span>
 
           <h2 className="text-3xl sm:text-4xl font-extrabold text-obsidian mt-3">

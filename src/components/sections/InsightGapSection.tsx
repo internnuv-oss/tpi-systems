@@ -29,7 +29,7 @@ const cards = [
 ];
 
 const InsightGapSection = () => (
-  <section className="py-20 px-6 bg-canvas">
+  <section className="py-10 px-6 bg-canvas">
     <div className="max-w-7xl mx-auto">
       <div className="text-center mb-14">
         <span className="font-mono text-xs text-teal uppercase tracking-widest">The Insight Gap</span>
@@ -58,11 +58,11 @@ const InsightGapSection = () => (
         ))}
       </div>
       <div className="mt-16 text-center max-w-3xl mx-auto">
-  <p className="text-base sm:text-lg font-medium text-obsidian">
-    This is the Insight Gap.
+  <p className="text-base sm:text-lg font-medium text-obsidian italic">
+    This is the Insight Gap
   </p>
 
-  <p className="mt-4 text-slate-text text-sm leading-relaxed">
+  <p className="mt-4 text-slate-text text-sm leading-relaxed italic">
     Real operational control requires moving beyond prediction to understanding 
     the true causal structure of your systems.
   </p>
