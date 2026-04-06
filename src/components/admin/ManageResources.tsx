@@ -1,4 +1,4 @@
-import { useState, useRef, useMemo } from "react";
+import { useState, useRef, useMemo, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
@@ -9,6 +9,14 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 type Resource = Tables<"resources">;
 
@@ -35,6 +43,7 @@ const emptyForm: ResourceForm = {
 };
 
 const REQUIRED_FIELDS: (keyof ResourceForm)[] = ["title", "description", "type", "tag_label", "linkedin_url"];
+const ITEMS_PER_PAGE = 10;
 
 const ManageResources = () => {
   const queryClient = useQueryClient();
@@ -51,6 +60,9 @@ const ManageResources = () => {
   const [filterType, setFilterType] = useState("");
   const [filterTag, setFilterTag] = useState("");
 
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+
   const { data: resources = [], isLoading } = useQuery({
     queryKey: ["admin-resources"],
     queryFn: async () => {
@@ -63,11 +75,9 @@ const ManageResources = () => {
     },
   });
 
-  // Derive unique types and tags for filter dropdowns
   const uniqueTypes = useMemo(() => [...new Set(resources.map((r) => r.type))], [resources]);
   const uniqueTags = useMemo(() => [...new Set(resources.map((r) => r.tag_label))], [resources]);
 
-  // Filtered & sorted list
   const filtered = useMemo(() => {
     let list = [...resources];
     if (search) {
@@ -83,6 +93,15 @@ const ManageResources = () => {
     });
     return list;
   }, [resources, search, filterType, filterTag, sortOrder]);
+
+  // Reset page to 1 if filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, filterType, filterTag, sortOrder]);
+
+  // Pagination Logic
+  const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+  const currentItems = filtered.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
   const handleFileUpload = async (file: File) => {
     setUploading(true);
@@ -113,7 +132,6 @@ const ManageResources = () => {
     });
 
   const handleSubmit = () => {
-    // Mark all required as touched
     const allTouched: Record<string, boolean> = {};
     REQUIRED_FIELDS.forEach((f) => (allTouched[f] = true));
     setTouched((t) => ({ ...t, ...allTouched }));
@@ -238,14 +256,14 @@ const ManageResources = () => {
                   ))}
                 </tr>
               ))
-            ) : filtered.length === 0 ? (
+            ) : currentItems.length === 0 ? (
               <tr>
                 <td colSpan={5} className="p-8 text-center text-slate-text">
                   {resources.length === 0 ? "No resources yet. Add your first one above." : "No results match your filters."}
                 </td>
               </tr>
             ) : (
-              filtered.map((r) => (
+              currentItems.map((r) => (
                 <tr key={r.id} className="border-b border-border hover:bg-muted/30 transition-colors">
                   <td className="p-3 font-medium text-obsidian max-w-[250px] truncate">{r.title}</td>
                   <td className="p-3">
@@ -263,6 +281,39 @@ const ManageResources = () => {
           </tbody>
         </table>
       </div>
+
+      {/* Pagination Controls */}
+      {totalPages > 1 && (
+        <Pagination className="mt-4 justify-end">
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                href="#"
+                onClick={(e) => { e.preventDefault(); setCurrentPage((p) => Math.max(1, p - 1)); }}
+                className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
+              />
+            </PaginationItem>
+            {[...Array(totalPages)].map((_, i) => (
+              <PaginationItem key={i}>
+                <PaginationLink
+                  href="#"
+                  isActive={currentPage === i + 1}
+                  onClick={(e) => { e.preventDefault(); setCurrentPage(i + 1); }}
+                >
+                  {i + 1}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
+            <PaginationItem>
+              <PaginationNext
+                href="#"
+                onClick={(e) => { e.preventDefault(); setCurrentPage((p) => Math.min(totalPages, p + 1)); }}
+                className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      )}
 
       {/* Dialog */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>

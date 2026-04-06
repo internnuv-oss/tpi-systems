@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Plus, Pencil, Trash2, Search } from "lucide-react";
@@ -9,6 +9,14 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 interface Job {
   id: string;
@@ -37,6 +45,7 @@ const emptyForm: JobForm = {
 };
 
 const REQUIRED_FIELDS: (keyof JobForm)[] = ["title", "department_tags", "description", "linkedin_url"];
+const ITEMS_PER_PAGE = 10;
 
 const ManageCareers = () => {
   const queryClient = useQueryClient();
@@ -49,6 +58,9 @@ const ManageCareers = () => {
   const [search, setSearch] = useState("");
   const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
   const [filterDept, setFilterDept] = useState("");
+
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
 
   const { data: jobs = [], isLoading } = useQuery({
     queryKey: ["admin-jobs"],
@@ -81,6 +93,15 @@ const ManageCareers = () => {
     });
     return list;
   }, [jobs, search, filterDept, sortOrder]);
+
+  // Reset page to 1 if filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, filterDept, sortOrder]);
+
+  // Pagination Logic
+  const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+  const currentItems = filtered.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
   const isFieldInvalid = (field: keyof JobForm) => {
     if (!REQUIRED_FIELDS.includes(field)) return false;
@@ -218,14 +239,14 @@ const ManageCareers = () => {
                   ))}
                 </tr>
               ))
-            ) : filtered.length === 0 ? (
+            ) : currentItems.length === 0 ? (
               <tr>
                 <td colSpan={4} className="p-8 text-center text-slate-text">
                   {jobs.length === 0 ? "No job postings yet. Add your first one above." : "No results match your filters."}
                 </td>
               </tr>
             ) : (
-              filtered.map((j) => (
+              currentItems.map((j) => (
                 <tr key={j.id} className="border-b border-border hover:bg-muted/30 transition-colors">
                   <td className="p-3 font-medium text-obsidian">{j.title}</td>
                   <td className="p-3 text-slate-text text-xs">{j.department_tags}</td>
@@ -242,6 +263,39 @@ const ManageCareers = () => {
           </tbody>
         </table>
       </div>
+
+      {/* Pagination Controls */}
+      {totalPages > 1 && (
+        <Pagination className="mt-4 justify-end">
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                href="#"
+                onClick={(e) => { e.preventDefault(); setCurrentPage((p) => Math.max(1, p - 1)); }}
+                className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
+              />
+            </PaginationItem>
+            {[...Array(totalPages)].map((_, i) => (
+              <PaginationItem key={i}>
+                <PaginationLink
+                  href="#"
+                  isActive={currentPage === i + 1}
+                  onClick={(e) => { e.preventDefault(); setCurrentPage(i + 1); }}
+                >
+                  {i + 1}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
+            <PaginationItem>
+              <PaginationNext
+                href="#"
+                onClick={(e) => { e.preventDefault(); setCurrentPage((p) => Math.min(totalPages, p + 1)); }}
+                className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      )}
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">

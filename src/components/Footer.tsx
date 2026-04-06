@@ -75,7 +75,7 @@ const Footer = ({ onNavigate }: FooterProps) => (
       {/* Bottom strip */}
       <div className="border-t border-primary-foreground/10 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
         <p className="text-xs text-primary-foreground/40">
-          © 2024 TPI Systems. All rights reserved.
+          © 2026 TPI Systems. All rights reserved.
         </p>
         <div className="flex gap-6">
           <span className="text-xs text-primary-foreground/40 hover:text-primary-foreground/60 cursor-pointer transition-colors">

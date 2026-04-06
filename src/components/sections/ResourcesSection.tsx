@@ -1,11 +1,26 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
-import { ExternalLink, Eye, Download } from "lucide-react";
+import { ExternalLink, Eye } from "lucide-react";
+import { useState } from "react";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 type Resource = Tables<"resources">;
 
+const PAPERS_PER_PAGE = 5;
+const CASE_STUDIES_PER_PAGE = 6;
+
 const ResourcesSection = () => {
+  const [papersPage, setPapersPage] = useState(1);
+  const [caseStudiesPage, setCaseStudiesPage] = useState(1);
+
   const { data: resources = [], isLoading } = useQuery({
     queryKey: ["public-resources"],
     queryFn: async () => {
@@ -18,16 +33,25 @@ const ResourcesSection = () => {
     },
   });
 
-  const papers = resources.filter((r) => r.type === "PDF" || r.type === "Research Note");
+  const papers = resources.filter((r) => 
+    r.type === "PDF" || r.type === "Research Note" || r.type === "Article"
+  );
   const caseStudies = resources.filter((r) => r.type === "Case Study");
 
+  // Pagination Logic
+  const totalPapersPages = Math.ceil(papers.length / PAPERS_PER_PAGE);
+  const currentPapers = papers.slice((papersPage - 1) * PAPERS_PER_PAGE, papersPage * PAPERS_PER_PAGE);
+
+  const totalCaseStudiesPages = Math.ceil(caseStudies.length / CASE_STUDIES_PER_PAGE);
+  const currentCaseStudies = caseStudies.slice((caseStudiesPage - 1) * CASE_STUDIES_PER_PAGE, caseStudiesPage * CASE_STUDIES_PER_PAGE);
+
   const PaperSkeleton = () => (
-    <div className="bg-canvas border border-border rounded p-5 flex gap-4 items-start">
-      <div className="w-10 h-6 bg-muted rounded animate-pulse shrink-0" />
+    <div className="bg-canvas border border-border rounded p-5 flex justify-between gap-4 items-start">
       <div className="flex-1 space-y-2">
         <div className="h-4 bg-muted rounded animate-pulse w-3/4" />
         <div className="h-3 bg-muted rounded animate-pulse w-full" />
       </div>
+      <div className="w-12 h-6 bg-muted rounded animate-pulse shrink-0" />
     </div>
   );
 
@@ -50,58 +74,88 @@ const ResourcesSection = () => {
           <span className="font-mono text-xs text-teal uppercase tracking-widest">Resources</span>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-obsidian mt-3">Knowledge Repository </h2>
           <p className="text-slate-text mt-4 max-w-2xl mx-auto text-sm leading-relaxed">
-          Scientific Foundations and anonymized implementation frameworks and case studies.        </p>
+            Scientific Foundations and anonymized implementation frameworks and case studies.        
+          </p>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-6 mb-14">
-          {/* Papers */}
+          {/* Papers / Articles / Notes */}
           <div className="lg:col-span-2 space-y-4">
             {isLoading ? (
               Array.from({ length: 3 }).map((_, i) => <PaperSkeleton key={i} />)
             ) : papers.length === 0 ? (
               <p className="text-sm text-slate-text text-center py-8">No research papers available at this time.</p>
             ) : (
-              papers.map((p) => (
-                <div
-                  key={p.id}
-                  onClick={() => handleCardClick(p.linkedin_url)}
-                  className={`bg-canvas border border-border rounded p-5 flex gap-4 items-start card-hover group ${p.linkedin_url ? "cursor-pointer" : ""}`}
-                >
-                  <span className="font-mono text-[10px] font-bold bg-teal/10 text-teal px-2 py-1 rounded shrink-0 uppercase">
-                    {p.type}
-                  </span>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2">
-                      <h4 className="text-sm font-bold text-obsidian group-hover:text-teal transition-colors duration-200">
-                        {p.title}
-                      </h4>
-                      {p.linkedin_url && <ExternalLink size={12} className="text-slate-text shrink-0" />}
-                    </div>
-                    <p className="text-xs text-slate-text mt-1 leading-relaxed">{p.description}</p>
-                    {p.file_url && (
-                      <div className="flex items-center gap-4 mt-2">
-                        <a
-                          href={p.file_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          onClick={(e) => e.stopPropagation()}
-                          className="inline-flex items-center gap-1 text-xs font-bold uppercase text-slate-text hover:text-teal transition-colors"
-                        >
-                          <Eye size={12} /> View PDF
-                        </a>
-                        <a
-                          href={p.file_url}
-                          download
-                          onClick={(e) => e.stopPropagation()}
-                          className="inline-flex items-center gap-1 text-xs font-bold uppercase text-slate-text hover:text-teal transition-colors"
-                        >
-                          <Download size={12} /> Download
-                        </a>
+              <>
+                {currentPapers.map((p) => (
+                  <div
+                    key={p.id}
+                    onClick={() => handleCardClick(p.linkedin_url)}
+                    className={`bg-canvas border border-border rounded p-5 flex justify-between gap-4 items-start card-hover group ${p.linkedin_url ? "cursor-pointer" : ""}`}
+                  >
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2">
+                        <h4 className="text-sm font-bold text-obsidian group-hover:text-teal transition-colors duration-200">
+                          {p.title}
+                        </h4>
+                        {p.linkedin_url && <ExternalLink size={12} className="text-slate-text shrink-0" />}
                       </div>
-                    )}
+                      <p className="text-xs text-slate-text mt-1 leading-relaxed">{p.description}</p>
+                      
+                      {(p.file_url || p.linkedin_url) && p.type?.trim().toLowerCase() === "pdf" && (
+                        <div className="flex items-center gap-4 mt-3">
+                          <a
+                            href={p.file_url || p.linkedin_url || "#"}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="inline-flex items-center gap-1.5 text-xs font-bold uppercase text-slate-text hover:text-teal transition-colors"
+                          >
+                            <Eye size={14} /> View PDF
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                    
+                    <span className="font-mono text-[10px] font-bold bg-teal/10 text-teal px-2 py-1 rounded shrink-0 uppercase whitespace-nowrap">
+                      {p.type}
+                    </span>
                   </div>
-                </div>
-              ))
+                ))}
+                
+                {/* Pagination Controls for Papers */}
+                {totalPapersPages > 1 && (
+                  <Pagination className="mt-8 justify-start">
+                    <PaginationContent>
+                      <PaginationItem>
+                        <PaginationPrevious
+                          href="#"
+                          onClick={(e) => { e.preventDefault(); setPapersPage((p) => Math.max(1, p - 1)); }}
+                          className={papersPage === 1 ? "pointer-events-none opacity-50" : ""}
+                        />
+                      </PaginationItem>
+                      {[...Array(totalPapersPages)].map((_, i) => (
+                        <PaginationItem key={i}>
+                          <PaginationLink
+                            href="#"
+                            isActive={papersPage === i + 1}
+                            onClick={(e) => { e.preventDefault(); setPapersPage(i + 1); }}
+                          >
+                            {i + 1}
+                          </PaginationLink>
+                        </PaginationItem>
+                      ))}
+                      <PaginationItem>
+                        <PaginationNext
+                          href="#"
+                          onClick={(e) => { e.preventDefault(); setPapersPage((p) => Math.min(totalPapersPages, p + 1)); }}
+                          className={papersPage === totalPapersPages ? "pointer-events-none opacity-50" : ""}
+                        />
+                      </PaginationItem>
+                    </PaginationContent>
+                  </Pagination>
+                )}
+              </>
             )}
           </div>
 
@@ -124,47 +178,76 @@ const ResourcesSection = () => {
         <div>
           <h3 className="text-xl font-bold text-obsidian mb-6">Evidence-Based Impact & Case Research</h3>
           
-          <div className="grid md:grid-cols-3 gap-6">
-            {isLoading ? (
-              Array.from({ length: 3 }).map((_, i) => <CaseStudySkeleton key={i} />)
-            ) : caseStudies.length === 0 ? (
-              <p className="text-sm text-slate-text text-center py-8 col-span-3">No case studies available at this time.</p>
-              
-            ) : (
-              caseStudies.map((c) => (
-                <div
-                  key={c.id}
-                  onClick={() => handleCardClick(c.linkedin_url)}
-                  className={`bg-canvas border border-border rounded p-6 card-hover ${c.linkedin_url ? "cursor-pointer" : ""}`}
-                >
-                  <span className="text-3xl font-extrabold text-teal">{c.highlight_metric || "—"}</span>
-                  <p className="text-xs font-semibold text-obsidian mt-1 uppercase tracking-wider">{c.metric_description || c.tag_label}</p>
-                  <p className="text-sm text-slate-text mt-3 leading-relaxed">{c.description}</p>
-                  {c.file_url && (
-                    <div className="flex items-center gap-4 mt-3">
-                      <a
-                        href={c.file_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="inline-flex items-center gap-1 text-xs font-bold uppercase text-slate-text hover:text-teal transition-colors"
-                      >
-                        <Eye size={12} /> View PDF
-                      </a>
-                      <a
-                        href={c.file_url}
-                        download
-                        onClick={(e) => e.stopPropagation()}
-                        className="inline-flex items-center gap-1 text-xs font-bold uppercase text-slate-text hover:text-teal transition-colors"
-                      >
-                        <Download size={12} /> Download
-                      </a>
-                    </div>
-                  )}
-                </div>
-              ))
-            )}
-          </div>
+          {isLoading ? (
+            <div className="grid md:grid-cols-3 gap-6">
+              {Array.from({ length: 3 }).map((_, i) => <CaseStudySkeleton key={i} />)}
+            </div>
+          ) : caseStudies.length === 0 ? (
+            <p className="text-sm text-slate-text text-center py-8">No case studies available at this time.</p>
+          ) : (
+            <>
+              <div className="grid md:grid-cols-3 gap-6">
+                {currentCaseStudies.map((c) => (
+                  <div
+                    key={c.id}
+                    onClick={() => handleCardClick(c.linkedin_url)}
+                    className={`bg-canvas border border-border rounded p-6 card-hover ${c.linkedin_url ? "cursor-pointer" : ""}`}
+                  >
+                    <span className="text-3xl font-extrabold text-teal">{c.highlight_metric || "—"}</span>
+                    <p className="text-xs font-semibold text-obsidian mt-1 uppercase tracking-wider">{c.metric_description || c.tag_label}</p>
+                    <p className="text-sm text-slate-text mt-3 leading-relaxed">{c.description}</p>
+                    
+                    {(c.file_url || c.linkedin_url) && c.type?.trim().toLowerCase() === "pdf" && (
+                      <div className="flex items-center gap-4 mt-4">
+                        <a
+                          href={c.file_url || c.linkedin_url || "#"}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="inline-flex items-center gap-1.5 text-xs font-bold uppercase text-slate-text hover:text-teal transition-colors"
+                        >
+                          <Eye size={14} /> View PDF
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* Pagination Controls for Case Studies */}
+              {totalCaseStudiesPages > 1 && (
+                <Pagination className="mt-8 justify-start">
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious
+                        href="#"
+                        onClick={(e) => { e.preventDefault(); setCaseStudiesPage((p) => Math.max(1, p - 1)); }}
+                        className={caseStudiesPage === 1 ? "pointer-events-none opacity-50" : ""}
+                      />
+                    </PaginationItem>
+                    {[...Array(totalCaseStudiesPages)].map((_, i) => (
+                      <PaginationItem key={i}>
+                        <PaginationLink
+                          href="#"
+                          isActive={caseStudiesPage === i + 1}
+                          onClick={(e) => { e.preventDefault(); setCaseStudiesPage(i + 1); }}
+                        >
+                          {i + 1}
+                        </PaginationLink>
+                      </PaginationItem>
+                    ))}
+                    <PaginationItem>
+                      <PaginationNext
+                        href="#"
+                        onClick={(e) => { e.preventDefault(); setCaseStudiesPage((p) => Math.min(totalCaseStudiesPages, p + 1)); }}
+                        className={caseStudiesPage === totalCaseStudiesPages ? "pointer-events-none opacity-50" : ""}
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
+              )}
+            </>
+          )}
         </div>
       </div>
     </section>
