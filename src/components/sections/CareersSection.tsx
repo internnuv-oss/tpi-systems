@@ -106,9 +106,9 @@ const CareersSection = () => {
                           {isOpen ? "−" : "+"}
                         </span>
                       </div>
-                      <p className="text-sm text-slate-text mt-2 leading-relaxed">
+                      {/* <p className="text-sm text-slate-text mt-2 leading-relaxed">
                         {j.department_tags}
-                      </p>
+                      </p> */}
                       {isOpen && (
                         <div className="mt-4 border-t border-border pt-4">
                           {j.description && (
