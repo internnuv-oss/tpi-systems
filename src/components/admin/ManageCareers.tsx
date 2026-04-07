@@ -94,12 +94,10 @@ const ManageCareers = () => {
     return list;
   }, [jobs, search, filterDept, sortOrder]);
 
-  // Reset page to 1 if filters change
   useEffect(() => {
     setCurrentPage(1);
   }, [search, filterDept, sortOrder]);
 
-  // Pagination Logic
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
   const currentItems = filtered.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
@@ -194,40 +192,39 @@ const ManageCareers = () => {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
           <h1 className="text-2xl font-extrabold text-obsidian">Manage Careers</h1>
           <p className="text-sm text-slate-text mt-1">Add and manage job postings.</p>
         </div>
-        <button onClick={openCreate} className="btn-teal text-xs uppercase tracking-wider flex items-center gap-2">
+        <button onClick={openCreate} className="btn-teal w-full sm:w-auto text-xs uppercase tracking-wider flex items-center justify-center gap-2">
           <Plus size={14} /> Add New Job
         </button>
       </div>
 
-      {/* Toolbar */}
-      <div className="flex flex-wrap items-center gap-3 mb-4 p-3 bg-surface border border-border rounded">
-        <div className="relative flex-1 min-w-[200px]">
+      <div className="flex flex-col sm:flex-row flex-wrap items-start sm:items-center gap-3 mb-4 p-3 bg-surface border border-border rounded">
+        <div className="relative w-full sm:flex-1 min-w-[200px]">
           <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-text" />
           <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search by title…" className="pl-9 h-9 text-sm" />
         </div>
-        <select value={filterDept} onChange={(e) => setFilterDept(e.target.value)} className="rounded border border-input bg-background px-3 py-2 text-sm h-9">
+        <select value={filterDept} onChange={(e) => setFilterDept(e.target.value)} className="w-full sm:w-auto rounded border border-input bg-background px-3 py-2 text-sm h-9">
           <option value="">All Departments</option>
           {uniqueDepts.map((d) => <option key={d} value={d}>{d}</option>)}
         </select>
-        <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value as "newest" | "oldest")} className="rounded border border-input bg-background px-3 py-2 text-sm h-9">
+        <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value as "newest" | "oldest")} className="w-full sm:w-auto rounded border border-input bg-background px-3 py-2 text-sm h-9">
           <option value="newest">Newest First</option>
           <option value="oldest">Oldest First</option>
         </select>
       </div>
 
-      <div className="bg-surface border border-border rounded overflow-hidden">
-        <table className="w-full text-sm">
+      <div className="bg-surface border border-border rounded overflow-x-auto">
+        <table className="w-full text-sm min-w-[600px]">
           <thead>
             <tr className="border-b border-border" style={{ background: "hsl(210 40% 96%)" }}>
               <th className="text-left p-3 font-semibold text-obsidian">Title</th>
               <th className="text-left p-3 font-semibold text-obsidian">Tags</th>
               <th className="text-center p-3 font-semibold text-obsidian">Active</th>
-              <th className="text-right p-3 font-semibold text-obsidian">Actions</th>
+              <th className="text-right p-3 font-semibold text-obsidian min-w-[150px]">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -264,41 +261,28 @@ const ManageCareers = () => {
         </table>
       </div>
 
-      {/* Pagination Controls */}
       {totalPages > 1 && (
         <Pagination className="mt-4 justify-end">
-          <PaginationContent>
+          <PaginationContent className="flex-wrap">
             <PaginationItem>
-              <PaginationPrevious
-                href="#"
-                onClick={(e) => { e.preventDefault(); setCurrentPage((p) => Math.max(1, p - 1)); }}
-                className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
-              />
+              <PaginationPrevious href="#" onClick={(e) => { e.preventDefault(); setCurrentPage((p) => Math.max(1, p - 1)); }} className={currentPage === 1 ? "pointer-events-none opacity-50" : ""} />
             </PaginationItem>
             {[...Array(totalPages)].map((_, i) => (
               <PaginationItem key={i}>
-                <PaginationLink
-                  href="#"
-                  isActive={currentPage === i + 1}
-                  onClick={(e) => { e.preventDefault(); setCurrentPage(i + 1); }}
-                >
+                <PaginationLink href="#" isActive={currentPage === i + 1} onClick={(e) => { e.preventDefault(); setCurrentPage(i + 1); }}>
                   {i + 1}
                 </PaginationLink>
               </PaginationItem>
             ))}
             <PaginationItem>
-              <PaginationNext
-                href="#"
-                onClick={(e) => { e.preventDefault(); setCurrentPage((p) => Math.min(totalPages, p + 1)); }}
-                className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
-              />
+              <PaginationNext href="#" onClick={(e) => { e.preventDefault(); setCurrentPage((p) => Math.min(totalPages, p + 1)); }} className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""} />
             </PaginationItem>
           </PaginationContent>
         </Pagination>
       )}
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
+        <DialogContent className="w-[95vw] sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>{editingId ? "Edit Job" : "Add New Job"}</DialogTitle>
           </DialogHeader>

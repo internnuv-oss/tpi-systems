@@ -29,7 +29,7 @@ const cards = [
 ];
 
 const InsightGapSection = () => (
-  <section className="py-10 px-6 bg-canvas">
+  <section className="pb-10 pt-0 px-6 bg-canvas">
     <div className="max-w-7xl mx-auto">
       <div className="text-center mb-14">
         <span className="font-mono text-xs text-teal uppercase tracking-widest">The Insight Gap</span>
@@ -57,7 +57,7 @@ const InsightGapSection = () => (
           </div>
         ))}
       </div>
-      <div className="mt-16 text-center max-w-3xl mx-auto">
+      <div className="mt-10  text-center max-w-3xl mx-auto">
   <p className="text-base sm:text-lg font-medium text-obsidian italic">
     This is the Insight Gap
   </p>
@@ -67,7 +67,7 @@ const InsightGapSection = () => (
     the true causal structure of your systems.
   </p>
 
-  <div className="mt-10">
+  <div className="mt-16">
     <h3 className="text-sm font-semibold uppercase tracking-wider text-teal">
       Industries We Serve
     </h3>
