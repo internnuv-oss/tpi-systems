@@ -27,27 +27,27 @@ Make sure you have [Node.js](https://nodejs.org/) installed (v18 or higher recom
 
 ### 1. Installation
 Clone the repository and install the dependencies:
-\`\`\`bash
+```bash
 npm install
 # or
 yarn install
 # or
 bun install
-\`\`\`
+```
 
 ### 2. Environment Variables
 Create a `.env` file in the root directory and add your Supabase credentials:
-\`\`\`env
+```env
 VITE_SUPABASE_PROJECT_ID="your_project_id"
 VITE_SUPABASE_URL="https://your_project_id.supabase.co"
 VITE_SUPABASE_PUBLISHABLE_KEY="your_anon_public_key"
-\`\`\`
+```
 
 ### 3. Run the Development Server
 Start the local Vite development server:
-\`\`\`bash
+```bash
 npm run dev
-\`\`\`
+```
 The application will be available at `http://localhost:8080`.
 
 ## 📦 Deployment
