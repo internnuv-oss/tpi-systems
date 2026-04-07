@@ -68,7 +68,18 @@ const Navbar = ({ activeSection, onNavigate }: NavbarProps) => {
               {item.label}
             </button>
           ))}
-          <button onClick={() => handleNav("careers")} className="btn-teal text-xs px-5 py-2.5 w-full">
+          
+          {/* Old button design commented out:
+          <button onClick={() => handleNav("careers")} className="btn-teal text-xs px-5 py-2.5 w-fit">
+            Join Team
+          </button>
+          */}
+          
+          {/* New list-item design for Join Team */}
+          <button 
+            onClick={() => handleNav("careers")} 
+            className={`block w-full text-left text-sm font-medium py-2 ${activeSection === "careers" ? "text-teal" : "text-slate-text"}`}
+          >
             Join Team
           </button>
         </div>

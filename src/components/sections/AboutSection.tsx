@@ -1,3 +1,5 @@
+import LinkedinIcon from "@/components/ui/icons";
+
 const stats = [
   { value: "15+", label: "Years Combined Experience" },
   { value: "50+", label: "Industrial Deployments" },
@@ -9,13 +11,15 @@ const founders = [
   {
     name: "Atul Garg",
     role: "Co-Founder & CTO",
-    expertise: "Causal Intelligence | Manufacturing | Supply Chain | Agriculture | Enterprise Software",
+    expertise:
+      "Causal Intelligence | Manufacturing | Supply Chain | Agriculture | Enterprise Software",
     linkedin: "linkedin.com/in/atul-garg",
   },
   {
     name: "Vikram Singhal",
     role: "Co-Founder & CEO",
-    expertise: "Process Industries | Operational Physics | Chemical Manufacturing | Global Operations",
+    expertise:
+      "Process Industries | Operational Physics | Chemical Manufacturing | Global Operations",
     linkedin: "linkedin.com/in/vikram-singhal",
   },
 ];
@@ -23,10 +27,11 @@ const founders = [
 const AboutSection = () => (
   <section className="py-20 px-6 bg-canvas">
     <div className="max-w-7xl mx-auto">
-      
       {/* Centered Header */}
       <div className="text-center mb-14">
-        <span className="font-mono text-xs text-teal uppercase tracking-widest">Company</span>
+        <span className="font-mono text-xs text-teal uppercase tracking-widest">
+          Company
+        </span>
         <h2 className="text-3xl sm:text-4xl font-extrabold text-obsidian mt-3">
           Bridging the Insight Gap
         </h2>
@@ -36,17 +41,24 @@ const AboutSection = () => (
         {/* Left */}
         <div>
           <p className="text-sm text-slate-text leading-relaxed mb-4">
-            Every organization deserves accurate, actionable intelligence. TheProcessInsights was founded on a simple belief: the "Insight Gap" between data and action is not a failure of effort, but a failure of methodology.
+            Every organization deserves accurate, actionable intelligence.
+            TheProcessInsights was founded on a simple belief: the "Insight Gap"
+            between data and action is not a failure of effort, but a failure of
+            methodology.
           </p>
 
           <p className="text-sm text-slate-text leading-relaxed mb-4">
-            Our team consists of causal researchers, process engineers, and software architects who believe the current era of correlation-based AI is hitting a ceiling.
+            Our team consists of causal researchers, process engineers, and
+            software architects who believe the current era of correlation-based
+            AI is hitting a ceiling.
           </p>
 
           {/* Quote */}
           <blockquote className="border-l-4 border-teal pl-4 py-2 mt-6">
             <p className="text-sm text-obsidian italic leading-relaxed">
-              "We are not another analytics company. We are a causal intelligence company, bridging everyday questions with operational optimization."
+              "We are not another analytics company. We are a causal
+              intelligence company, bridging everyday questions with operational
+              optimization."
             </p>
           </blockquote>
         </div>
@@ -55,15 +67,21 @@ const AboutSection = () => (
         <div className="space-y-6">
           <div className="bg-surface border border-border rounded p-6">
             <p className="text-sm text-obsidian font-bold leading-relaxed text-center">
-              "We move enterprises from guessing to knowing by replacing correlation with causation" 
-            </p >
+              "We move enterprises from guessing to knowing by replacing
+              correlation with causation"
+            </p>
             <p className="text-sm text-slate-text leading-relaxed mt-3 text-center">
-              We transform operational data from a passive record into an active control system, enabling scientific decision-making instead of intuition-based firefighting.
+              We transform operational data from a passive record into an active
+              control system, enabling scientific decision-making instead of
+              intuition-based firefighting.
             </p>
 
             <p className="text-sm text-slate-text leading-relaxed mt-3 text-center">
-              We transform operational data from a passive record into an active control system, enabling scientific decision-making instead of intuition-based firefighting.
-              We build cutting-edge digital assistants to optimize manufacturing, delivering precision and innovation that elevate our clients to world-class status.
+              We transform operational data from a passive record into an active
+              control system, enabling scientific decision-making instead of
+              intuition-based firefighting. We build cutting-edge digital
+              assistants to optimize manufacturing, delivering precision and
+              innovation that elevate our clients to world-class status.
             </p>
           </div>
         </div>
@@ -75,24 +93,25 @@ const AboutSection = () => (
 
         <div className="grid md:grid-cols-2 gap-8">
           {founders.map((f) => (
-            <div key={f.name} className="flex gap-5 items-start border border-border rounded-lg p-5">
-              
+            <div
+              key={f.name}
+              className="flex gap-5 items-start border border-border rounded-lg p-5"
+            >
               {/* Avatar */}
               <div className="w-16 h-16 rounded bg-muted flex items-center justify-center shrink-0">
                 <span className="font-bold text-slate-text text-lg">
-                  {f.name.split(" ").map(n => n[0]).join("")}
+                  {f.name
+                    .split(" ")
+                    .map((n) => n[0])
+                    .join("")}
                 </span>
               </div>
 
               {/* Content */}
               <div>
-                <h4 className="text-base font-bold text-obsidian">
-                  {f.name}
-                </h4>
+                <h4 className="text-base font-bold text-obsidian">{f.name}</h4>
 
-                <p className="text-xs text-teal font-semibold mb-2">
-                  {f.role}
-                </p>
+                <p className="text-xs text-teal font-semibold mb-2">{f.role}</p>
 
                 {/* Expertise */}
                 <p className="text-sm text-slate-text leading-relaxed mb-3">
@@ -100,17 +119,24 @@ const AboutSection = () => (
                 </p>
 
                 {/* LinkedIn */}
-                <p className="text-sm text-slate-text">
-                  <span className="text-obsidian font-medium">LinkedIn: </span>
+                <div className="mt-2 inline-flex items-center gap-1.5 text-sm group">
+                  <LinkedinIcon
+                    size={16}
+                    className="text-obsidian"
+                  />
+                  <span className="text-obsidian font-medium">
+                    LinkedIn:
+                  </span>
                   <a
                     href={`https://${f.linkedin}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-teal hover:underline"
                   >
-                    {f.linkedin}
+                    <span className="text-teal hover:underline">
+                      {f.name}
+                    </span>
                   </a>
-                </p>
+                </div>
               </div>
             </div>
           ))}

@@ -1,3 +1,5 @@
+import LinkedinIcon from "@/components/ui/icons";
+
 interface FooterProps {
   onNavigate: (section: string) => void;
 }
@@ -19,7 +21,7 @@ const Footer = ({ onNavigate }: FooterProps) => (
           </p>
         </div>
 
-        {/* Navigate (Updated) */}
+        {/* Navigate */}
         <div>
           <h4 className="text-xs font-semibold text-primary-foreground uppercase tracking-wider mb-4">
             Navigate
@@ -45,16 +47,14 @@ const Footer = ({ onNavigate }: FooterProps) => (
           </ul>
         </div>
 
-       
-
-        {/* Connect (Updated from Contact) */}
+        {/* Connect */}
         <div>
           <h4 className="text-xs font-semibold text-primary-foreground uppercase tracking-wider mb-4">
             Connect
           </h4>
-          <ul className="space-y-2 text-sm text-primary-foreground/60">
+          <ul className="space-y-3 text-sm text-primary-foreground/60">
             <li>
-              <a href="mailto:info@tpisystems.com" className="hover:text-teal">
+              <a href="mailto:info@tpisystems.com" className="hover:text-teal transition-colors">
                 info@tpisystems.com
               </a>
             </li>
@@ -63,9 +63,10 @@ const Footer = ({ onNavigate }: FooterProps) => (
                 href="https://www.linkedin.com/company/tpisystems"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-teal break-words"
+                className="inline-flex items-center gap-2 hover:text-teal transition-colors"
               >
-                https://www.linkedin.com/company/tpisystems
+                <LinkedinIcon size={16} />
+                LinkedIn
               </a>
             </li>
           </ul>
