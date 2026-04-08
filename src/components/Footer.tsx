@@ -5,7 +5,7 @@ interface FooterProps {
 }
 
 const Footer = ({ onNavigate }: FooterProps) => (
-  <footer className="bg-obsidian py-16 px-6">
+  <footer className="bg-obsidian py-8 px-6">
     <div className="max-w-7xl mx-auto">
       <div className="grid md:grid-cols-3 gap-10 mb-12">
         
