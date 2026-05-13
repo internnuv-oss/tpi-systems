@@ -55,7 +55,7 @@ const Footer = ({ onNavigate }: FooterProps) => (
           <ul className="space-y-3 text-sm text-primary-foreground/60">
             <li>
               <a href="mailto:info@tpisystems.com" className="hover:text-teal transition-colors">
-                info@tpisystems.com
+                mail@tpisystems.com
               </a>
             </li>
             <li>
