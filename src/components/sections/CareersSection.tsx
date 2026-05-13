@@ -116,7 +116,7 @@ const CareersSection = () => {
                               {j.description}
                             </p>
                           )}
-                          <button
+                          {/* <button
                             onClick={(e) => {
                               e.stopPropagation();
                               if (j.linkedin_url) {
@@ -126,7 +126,16 @@ const CareersSection = () => {
                             className="btn-outline text-xs px-4 py-2 hover:bg-obsidian hover:text-primary-foreground transition-all duration-200"
                           >
                             Apply Now
-                          </button>
+                          </button> */}
+                          <button
+  onClick={(e) => {
+    e.stopPropagation();
+    window.location.href = `mailto:mail@tpisystems.com?subject=Application%20for%20${encodeURIComponent(j.title)}`;
+  }}
+  className="btn-outline text-xs px-4 py-2 hover:bg-obsidian hover:text-primary-foreground transition-all duration-200"
+>
+  Apply Now
+</button>
                         </div>
                       )}
                     </div>
