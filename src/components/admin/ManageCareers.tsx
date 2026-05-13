@@ -44,7 +44,7 @@ const emptyForm: JobForm = {
   is_active: true,
 };
 
-const REQUIRED_FIELDS: (keyof JobForm)[] = ["title", "department_tags", "description", "linkedin_url"];
+const REQUIRED_FIELDS: (keyof JobForm)[] = ["title", "department_tags", "description"];
 const ITEMS_PER_PAGE = 10;
 
 const ManageCareers = () => {
@@ -303,10 +303,15 @@ const ManageCareers = () => {
               {isFieldInvalid("description") && <p className="text-destructive text-[11px] mt-0.5">Description is required.</p>}
             </div>
             <div>
-              <label className="text-xs font-medium text-obsidian mb-1 block">LinkedIn URL <span className="text-destructive">*</span></label>
-              <Input value={form.linkedin_url} onChange={(e) => updateField("linkedin_url", e.target.value)} onBlur={() => markTouched("linkedin_url")} placeholder="https://linkedin.com/jobs/..." className={fieldClass("linkedin_url")} />
-              {isFieldInvalid("linkedin_url") && <p className="text-destructive text-[11px] mt-0.5">LinkedIn URL is required.</p>}
-            </div>
+  <label className="text-xs font-medium text-obsidian mb-1 block">LinkedIn URL (Optional)</label>
+  <Input 
+    value={form.linkedin_url} 
+    onChange={(e) => updateField("linkedin_url", e.target.value)} 
+    onBlur={() => markTouched("linkedin_url")} 
+    placeholder="https://linkedin.com/jobs/..." 
+    className={fieldClass("linkedin_url")} 
+  />
+</div>
             <div className="flex items-center gap-3">
               <Switch checked={form.is_active} onCheckedChange={(checked) => updateField("is_active", checked)} />
               <label className="text-sm text-obsidian">Active</label>
