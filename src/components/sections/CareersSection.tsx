@@ -196,7 +196,7 @@ const CareersSection = () => {
               <p className="text-xs text-primary-foreground/50 mb-1">
                 Send your resume to:
               </p>
-              <p className="font-mono text-xs text-teal">careers@tpisystems.com</p>
+              <p className="font-mono text-xs text-teal">mail@tpisystems.com</p>
             </div>
           </div>
         </div>
